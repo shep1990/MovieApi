@@ -5,6 +5,6 @@ export interface MovieResponse {
   page: number;
   per_page: number;
   support: any;
-  total: number;
+  count: number;
   total_pages: number;
 }

@@ -14,6 +14,7 @@ import { environment } from '../environments/environment';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Injectable()
 export class BaseUrlInterceptor implements HttpInterceptor {
@@ -44,7 +45,8 @@ export class BaseUrlInterceptor implements HttpInterceptor {
     ]),
     MatTableModule,
     MatPaginatorModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxPaginationModule
   ],
   providers: [
     ApiService,

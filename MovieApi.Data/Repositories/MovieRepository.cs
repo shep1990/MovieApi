@@ -2,6 +2,7 @@
 using Microsoft.Azure.Cosmos.Linq;
 using MovieApi.Data.Interfaces;
 using MovieApi.Data.Models;
+using System.Drawing.Printing;
 
 namespace MovieApi.Data.Repositories
 {
@@ -23,6 +24,14 @@ namespace MovieApi.Data.Repositories
         public async Task<List<Movie>> Get()
         {
             var itemResponseFeed = _container.GetItemLinqQueryable<Movie>().ToFeedIterator();
+            FeedResponse<Movie> queryResultSet = await itemResponseFeed.ReadNextAsync();
+            return queryResultSet.ToList();
+        }
+
+        public async Task<List<Movie>> GetByPageNumber(int? page, int pagesize = 10)
+        {
+            var skipValue = (page ?? 0) * pagesize;
+            var itemResponseFeed = _container.GetItemLinqQueryable<Movie>().Skip(skipValue).Take(pagesize).ToFeedIterator();
             FeedResponse<Movie> queryResultSet = await itemResponseFeed.ReadNextAsync();
             return queryResultSet.ToList();
         }

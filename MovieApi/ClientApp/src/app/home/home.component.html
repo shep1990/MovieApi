@@ -1,4 +1,4 @@
-<input type="text" class="form-control" (keyup)="search($event)"/>
+<input type="text" class="form-control" (keyup)="search($event)" />
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="title">
@@ -50,8 +50,6 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<mat-paginator [pageSizeOptions]="[5, 10, 20]"
-               showFirstLastButtons
-               [pageSize]="10"
-               aria-label="Type in Movie name">
+<mat-paginator #paginator [pageIndex]="currentPage" [pageSize]="pageSize"
+               [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page">
 </mat-paginator>

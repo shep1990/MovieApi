@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\Movie.ts" />
+    <None Remove="ClientApp\src\pagination.ts" />
     <None Remove="ClientApp\src\services\MovieResponse.ts" />
   </ItemGroup>
 
@@ -36,6 +37,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\Movie.ts" />
     <TypeScriptCompile Include="ClientApp\src\MovieResponse.ts" />
+    <TypeScriptCompile Include="ClientApp\src\Pagination.ts" />
   </ItemGroup>
 
   <ItemGroup>
