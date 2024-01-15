@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { tap } from 'rxjs';
-import { MovieResponse } from '../../MovieResponse';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -22,12 +22,18 @@ export class HomeComponent implements AfterViewInit, OnInit {
   currentPage = 0;
   pageSizeOptions: number[] = [5, 10, 25, 100];
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, private route: ActivatedRoute, private router: Router) {
 
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+  ngAfterViewInit(): void {
+    this.paginator.page.subscribe(() => {
+      this.router.navigate([''], {
+        relativeTo: this.route,
+        queryParams: { page: this.paginator.pageIndex + 1 },
+        queryParamsHandling: 'merge',
+      });
+    });
   }
 
   ngOnInit() {
@@ -40,7 +46,6 @@ export class HomeComponent implements AfterViewInit, OnInit {
       this.dataSource.data = this.movies
       this.paginator.pageIndex = this.currentPage;
       this.totalRows = data.count
-      console.log("total rows" + this.totalRows)
     });
   }
 
@@ -53,8 +58,6 @@ export class HomeComponent implements AfterViewInit, OnInit {
   onPageChange(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
-    console.log("page change " + this.currentPage)
-    console.log("length " + event.length)
     this.loadData();
   }
 

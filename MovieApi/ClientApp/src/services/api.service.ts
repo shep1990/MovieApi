@@ -17,10 +17,9 @@ export class ApiService {
   }
 
   public getByPaged(currentPage: number, pageSize: number): Observable<MovieResponse> {
-    console.log("api " + currentPage)
     const params = new HttpParams()
       .set('page', currentPage)
       .set('pageSize', pageSize)
-    return this.http.get<MovieResponse>('api/Movie/PagedMovies', {params}).pipe(map(response => response));
+    return this.http.get<MovieResponse>('api/Movie/PagedMovies', { params }).pipe(map(response => response));
   }
 }

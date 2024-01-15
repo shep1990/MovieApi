@@ -26,7 +26,7 @@ namespace MovieApi.Handlers
                     Success = true,
                     Data = response,
                     Count = totalCount.Count,
-                    PageIndex = request.Page ?? 1,
+                    PageIndex = request.Page,
                     PageSize = request.PageSize,
                 };
             }

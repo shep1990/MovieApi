@@ -28,10 +28,9 @@ namespace MovieApi.Data.Repositories
             return queryResultSet.ToList();
         }
 
-        public async Task<List<Movie>> GetByPageNumber(int? page, int pagesize = 10)
+        public async Task<List<Movie>> GetByPageNumber(int page, int pagesize = 10)
         {
-            var skipValue = (page ?? 0) * pagesize;
-            var itemResponseFeed = _container.GetItemLinqQueryable<Movie>().Skip(skipValue).Take(pagesize).ToFeedIterator();
+            var itemResponseFeed = _container.GetItemLinqQueryable<Movie>().Skip(page * pagesize).Take(pagesize).ToFeedIterator();
             FeedResponse<Movie> queryResultSet = await itemResponseFeed.ReadNextAsync();
             return queryResultSet.ToList();
         }
