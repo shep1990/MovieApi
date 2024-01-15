@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { tap } from 'rxjs';
+import { MovieResponse } from '../../MovieResponse';
 
 @Component({
   selector: 'app-home',
@@ -16,10 +17,10 @@ export class HomeComponent implements AfterViewInit, OnInit {
   public movies: Movie[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  public totalRows = 0;
-  public pageSize = 5;
-  public currentPage = 0;
-  public pageSizeOptions: number[] = [5, 10, 25, 100];
+  totalRows = 0;
+  pageSize = 10;
+  currentPage = 0;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
 
   constructor(private apiService: ApiService) {
 
@@ -37,7 +38,6 @@ export class HomeComponent implements AfterViewInit, OnInit {
     this.apiService.getByPaged(this.currentPage, this.pageSize).subscribe((data) => {
       this.movies = Object.values(data.data)
       this.dataSource.data = this.movies
-      this.dataSource.paginator = this.paginator;
       this.paginator.pageIndex = this.currentPage;
       this.totalRows = data.count
       console.log("total rows" + this.totalRows)
@@ -54,6 +54,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
     console.log("page change " + this.currentPage)
+    console.log("length " + event.length)
     this.loadData();
   }
 

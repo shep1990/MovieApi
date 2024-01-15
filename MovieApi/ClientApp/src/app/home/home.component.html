@@ -50,6 +50,6 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<mat-paginator #paginator [pageIndex]="currentPage" [pageSize]="pageSize"
+<mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
                [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page">
 </mat-paginator>
