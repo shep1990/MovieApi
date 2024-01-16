@@ -25,9 +25,9 @@ namespace MovieApi.Tests
         [TestMethod]
         public async Task WhenTheQueryHandlerIsTriggered_AndAnExceptionOccurs_LogTheException()
         {
-            _movieRepository.Setup(x => x.GetByPageNumber(1, 10)).Throws(new Exception("Exception Thrown"));
+            _movieRepository.Setup(x => x.GetByPageNumber(1, 10, null)).Throws(new Exception("Exception Thrown"));
             var sut = new GetPagedMovieQueryHandler(_movieRepository.Object, _logger.Object);
-            var movieQuery = new GetPagedMovieQuery(1, 10);
+            var movieQuery = new GetPagedMovieQuery(1, 10, null);
 
             var result = await sut.Handle(movieQuery, default);
 
@@ -42,9 +42,9 @@ namespace MovieApi.Tests
         public async Task WhenTheQueryHandlerIsTriggered_AndThereAreItemsInTheDatabase_ThenThoseItemsShouldBeFound(int pageTotal, int overallTotal)
         {
             _movieRepository.Setup(x => x.Get()).ReturnsAsync(GetMovieList(overallTotal));
-            _movieRepository.Setup(x => x.GetByPageNumber(1, pageTotal)).ReturnsAsync(GetMovieList(pageTotal));
+            _movieRepository.Setup(x => x.GetByPageNumber(1, pageTotal, null)).ReturnsAsync(GetMovieList(pageTotal));
             var sut = new GetPagedMovieQueryHandler(_movieRepository.Object, _logger.Object);
-            var movieQuery = new GetPagedMovieQuery(1, pageTotal);
+            var movieQuery = new GetPagedMovieQuery(1, pageTotal, null);
 
             var result = await sut.Handle(movieQuery, default);
 
@@ -53,6 +53,22 @@ namespace MovieApi.Tests
             result.PageSize.Should().Be(pageTotal);
             result.PageIndex.Should().Be(1);
             CompareMovieLists(GetMovieList(pageTotal), result.Data).Count.Should().Be(pageTotal);
+        }
+
+        [TestMethod]
+        [DataRow("Movie Name 0")]
+        public async Task WhenFilteringResults_ThenTheCorrectRecordShouldBeReturned(string title)
+        {
+            _movieRepository.Setup(x => x.Get()).ReturnsAsync(GetMovieList(1));
+            _movieRepository.Setup(x => x.GetByPageNumber(1, 1, title)).ReturnsAsync(GetMovieList(1));
+            var sut = new GetPagedMovieQueryHandler(_movieRepository.Object, _logger.Object);
+            var movieQuery = new GetPagedMovieQuery(1, 1, title);
+
+            var result = await sut.Handle(movieQuery, default);
+
+            result.Data.Count.Should().Be(1);
+            result.PageIndex.Should().Be(1);
+            result.Data.First().Title.Should().Be(title);
         }
 
         private List<Movie> CompareMovieLists(List<Movie> expected, List<Movie> actual)

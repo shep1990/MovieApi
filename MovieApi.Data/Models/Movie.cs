@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,9 @@ namespace MovieApi.Data.Models
 {
     public class Movie
     {
+        [JsonProperty("id")]
+        public Guid Id { get; set; }
+        [JsonProperty(PropertyName = "title")]
         public string Title { get; set; } = string.Empty;
         public DateTime Release_Date { get; set; }  
         public string Overview { get; set; } = string.Empty;

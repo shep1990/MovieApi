@@ -19,7 +19,7 @@ namespace MovieApi.Handlers
             try
             {
                 var totalCount = await _movieRepository.Get();
-                var response = await _movieRepository.GetByPageNumber(request.Page, request.PageSize);
+                var response = await _movieRepository.GetByPageNumber(request.Page, request.PageSize, request.FilterValue);
 
                 return new HandlerResponse<List<Movie>>
                 {

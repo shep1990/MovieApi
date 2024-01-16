@@ -24,9 +24,9 @@ namespace MovieApi.Controllers
         }
 
         [HttpGet("PagedMovies")]
-        public async Task<IActionResult> GetPagedMovies(int page, int pageSize = 10)
+        public async Task<IActionResult> GetPagedMovies(int page, int pageSize = 10, string? filterValue = null)
         {
-            var pagedMovieQuery = new GetPagedMovieQuery(page, pageSize);
+            var pagedMovieQuery = new GetPagedMovieQuery(page, pageSize, filterValue);
             var result = await _mediator.Send(pagedMovieQuery);
             return Ok(result);
         }

@@ -4,7 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { tap } from 'rxjs';
+import { filter, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -21,6 +21,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
   pageSize = 10;
   currentPage = 0;
   pageSizeOptions: number[] = [5, 10, 25, 100];
+
 
   constructor(private apiService: ApiService, private route: ActivatedRoute, private router: Router) {
 
@@ -50,8 +51,13 @@ export class HomeComponent implements AfterViewInit, OnInit {
   }
 
   search(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    let filterValue = (event.target as HTMLInputElement).value;
+    this.apiService.getByFilteredValue(this.currentPage, this.pageSize, filterValue).subscribe((data) => {
+      this.movies = Object.values(data.data)
+      this.dataSource.data = this.movies
+      this.paginator.pageIndex = this.currentPage;
+      this.totalRows = data.count
+    });
   }
 
 

@@ -22,4 +22,13 @@ export class ApiService {
       .set('pageSize', pageSize)
     return this.http.get<MovieResponse>('api/Movie/PagedMovies', { params }).pipe(map(response => response));
   }
+
+
+  public getByFilteredValue(currentPage: number, pageSize: number, filterValue: string): Observable<MovieResponse> {
+    const params = new HttpParams()
+      .set('page', currentPage)
+      .set('pageSize', pageSize)
+      .set('filterValue', filterValue)
+    return this.http.get<MovieResponse>('api/Movie/PagedMovies', { params }).pipe(map(response => response));
+  }
 }
