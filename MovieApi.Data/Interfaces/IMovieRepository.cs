@@ -10,6 +10,6 @@ namespace MovieApi.Data.Interfaces
     public interface IMovieRepository
     {
         Task<List<Movie>> Get();
-        Task<List<Movie>> GetByPageNumber(int page, int pagesize = 10, string? filterValue = null);
+        Task<List<Movie>> GetFilteredMovies(int page, int pagesize = 10, string? filterValue = null);
     }
 }

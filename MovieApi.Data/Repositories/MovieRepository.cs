@@ -11,7 +11,7 @@ namespace MovieApi.Data.Repositories
         private Database _database;
         private Container _container;
         const string databaseId = "movie-database";
-        const string containerId = "movie-container1";
+        const string containerId = "movie-container";
 
         public MovieRepository(CosmosClient cosmosClient)
         {
@@ -27,13 +27,10 @@ namespace MovieApi.Data.Repositories
             return queryResultSet.ToList();
         }
 
-        public async Task<List<Movie>> GetByPageNumber(int page, int pagesize = 10, string? filteredValue = null)
+        public async Task<List<Movie>> GetFilteredMovies(int page, int pagesize = 10, string? filteredValue = null)
         {
-            FeedIterator<Movie> itemResponseFeed;
-            if (filteredValue != null)
-                itemResponseFeed = _container.GetItemLinqQueryable<Movie>().Where(x => x.Title.ToLower().Contains(filteredValue)).ToFeedIterator();
-            else            
-                itemResponseFeed = _container.GetItemLinqQueryable<Movie>().Skip(page * pagesize).Take(pagesize).ToFeedIterator();
+            var itemResponseFeed = filteredValue != null ? _container.GetItemLinqQueryable<Movie>().Where(x => x.Title == filteredValue).ToFeedIterator() : 
+                _container.GetItemLinqQueryable<Movie>().Skip(page * pagesize).Take(pagesize).ToFeedIterator();
             
             FeedResponse<Movie> queryResultSet = await itemResponseFeed.ReadNextAsync();
             return queryResultSet.ToList();

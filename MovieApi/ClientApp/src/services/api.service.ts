@@ -20,7 +20,7 @@ export class ApiService {
     const params = new HttpParams()
       .set('page', currentPage)
       .set('pageSize', pageSize)
-    return this.http.get<MovieResponse>('api/Movie/PagedMovies', { params }).pipe(map(response => response));
+    return this.http.get<MovieResponse>('api/Movie/FilteredMovies', { params }).pipe(map(response => response));
   }
 
 
@@ -29,6 +29,6 @@ export class ApiService {
       .set('page', currentPage)
       .set('pageSize', pageSize)
       .set('filterValue', filterValue)
-    return this.http.get<MovieResponse>('api/Movie/PagedMovies', { params }).pipe(map(response => response));
+    return this.http.get<MovieResponse>('api/Movie/FilteredMovies', { params }).pipe(map(response => response));
   }
 }

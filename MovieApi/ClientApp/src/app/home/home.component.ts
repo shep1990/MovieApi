@@ -55,8 +55,6 @@ export class HomeComponent implements AfterViewInit, OnInit {
     this.apiService.getByFilteredValue(this.currentPage, this.pageSize, filterValue).subscribe((data) => {
       this.movies = Object.values(data.data)
       this.dataSource.data = this.movies
-      this.paginator.pageIndex = this.currentPage;
-      this.totalRows = data.count
     });
   }
 

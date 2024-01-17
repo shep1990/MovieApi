@@ -25,7 +25,7 @@ namespace MovieApi.Tests
         [TestMethod]
         public async Task WhenTheQueryHandlerIsTriggered_AndAnExceptionOccurs_LogTheException()
         {
-            _movieRepository.Setup(x => x.GetByPageNumber(1, 10, null)).Throws(new Exception("Exception Thrown"));
+            _movieRepository.Setup(x => x.GetFilteredMovies(1, 10, null)).Throws(new Exception("Exception Thrown"));
             var sut = new GetPagedMovieQueryHandler(_movieRepository.Object, _logger.Object);
             var movieQuery = new GetPagedMovieQuery(1, 10, null);
 
@@ -42,7 +42,7 @@ namespace MovieApi.Tests
         public async Task WhenTheQueryHandlerIsTriggered_AndThereAreItemsInTheDatabase_ThenThoseItemsShouldBeFound(int pageTotal, int overallTotal)
         {
             _movieRepository.Setup(x => x.Get()).ReturnsAsync(GetMovieList(overallTotal));
-            _movieRepository.Setup(x => x.GetByPageNumber(1, pageTotal, null)).ReturnsAsync(GetMovieList(pageTotal));
+            _movieRepository.Setup(x => x.GetFilteredMovies(1, pageTotal, null)).ReturnsAsync(GetMovieList(pageTotal));
             var sut = new GetPagedMovieQueryHandler(_movieRepository.Object, _logger.Object);
             var movieQuery = new GetPagedMovieQuery(1, pageTotal, null);
 
@@ -60,7 +60,7 @@ namespace MovieApi.Tests
         public async Task WhenFilteringResults_ThenTheCorrectRecordShouldBeReturned(string title)
         {
             _movieRepository.Setup(x => x.Get()).ReturnsAsync(GetMovieList(1));
-            _movieRepository.Setup(x => x.GetByPageNumber(1, 1, title)).ReturnsAsync(GetMovieList(1));
+            _movieRepository.Setup(x => x.GetFilteredMovies(1, 1, title)).ReturnsAsync(GetMovieList(1));
             var sut = new GetPagedMovieQueryHandler(_movieRepository.Object, _logger.Object);
             var movieQuery = new GetPagedMovieQuery(1, 1, title);
 
