@@ -37,10 +37,7 @@ db. The UI is using Angular, below is how the application should look
 
 ![alt text](Images/MoviePage.png)
 
-The filter bar allows you to filter by anything in the table, this isn't a server side search, it's a client side like the pagination. This could be an improvement to make, because 
-then it'll mean the movie data will be loaded as it's required rather than all in one go on app start
+The pagination and filtering are server side, so when you move onto the next page, and you have 10 items per page, it'll go ahead and get the next 10 items from the database, rather than pulling all recors out in one go. 
+if you enter the title of a movie into the search a request will be sent to retrieve anything matching that title
 
 ![alt text](Images/FilteredResult.png)
-
-Filter by genre
-![alt text](Images/GenreFilter.png)
