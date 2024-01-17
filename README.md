@@ -6,7 +6,7 @@ Once downloaded run the emulator, and you'll see set up details. These details w
 
 I took the CSV you sent and imported it using a small application I 
 found on Github (https://github.com/AzureCosmosDB/data-migration-desktop-tool) this allowed me to import the CSV into my local cosmos db. To import the data the only 
-configuration I needed to amend was in the migrationsettings.json, apart from this, nothing else needed to be changed. 
+configuration I needed to amend was in the migrationsettings.json, apart from this, nothing else needed to be changed. A minor adendum to this, make sure the properties are lowercase, rather than capitalised
 
 Configuration used
 
@@ -21,7 +21,7 @@ Configuration used
     "ConnectionString": "AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
     "Database": "movie-database",
     "Container": "movie-container",
-    "PartitionKeyPath": "/Title",
+    "PartitionKeyPath": "/title",
     "RecreateContainer": false,
     "IncludeMetadataFields": false
   }
